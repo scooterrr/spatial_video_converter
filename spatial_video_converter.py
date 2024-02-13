@@ -132,7 +132,7 @@ parser.add_argument('-o', '--output-directory', help='Path to the output directo
 args = parser.parse_args()
 
 # Get list of images in the input directory
-input_images = [img for img in os.listdir(args.input) if img.endswith(('.jpeg', '.png', '.jpg'))]
+input_images = [img for img in os.listdir(args.input) if img.endswith(('.jpeg', '.JPEG', '.png', '.PNG', '.jpg', '>JPG'))]
 
 print(TerminalColors.WARNING + f"[Info]: Found {len(input_images)} images in {args.input}.")
 print(f"[Info]: Beginning conversion with separation value of {args.separation}..." + TerminalColors.ENDC)
