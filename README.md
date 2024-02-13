@@ -21,7 +21,10 @@ You will need FFMPEG, and potentially an Apple Silicon Mac, I haven't tried the 
    ```sh
    python spatial_video_converter.py --help
    ```
-
+4. Depending on how large or small you'd like the percieved scale to be, set the --separation value. You'll want to experiment with this, lower values make things feel larger. I use a value of 30 to make things feel a bit larger than life.
+  ```sh
+  python spatial_video_converter.py --input test_image.jpg --separation 30
+  ```
 
 <!-- ROADMAP -->
 ## Roadmap
