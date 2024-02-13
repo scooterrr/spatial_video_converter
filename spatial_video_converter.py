@@ -111,16 +111,28 @@ def apply_displacement_map(src_img, disp_map, disp_amount, eye='unspecified'):
 
 # Exports a .mp4 from SBS image ( This is just until I figure out how to author stereo HEIC )
 def create_video_from_image(image_path, output_video_path, duration=1, fps=30):
-    kargs = { 'macro_block_size': None }
-    writer = imageio.get_writer(output_video_path, fps=fps, **kargs)
-    
-    image = imageio.imread(image_path)
+    import subprocess
+
+    # Calculate total frames
     total_frames = duration * fps
-    
-    for _ in range(total_frames):
-        writer.append_data(image)
-    
-    writer.close()
+
+    # Command to create video using ffmpeg
+    kargs = { 'macro_block_size': None }
+
+    command = [
+        'ffmpeg',
+        '-y',  # Overwrite output file if it exists
+        '-loop', '1',  # Loop the input image
+        '-i', image_path,  # Input file
+        '-c:v', 'libx264',  # Codec to use
+        '-t', str(duration),  # Duration of output video
+        '-vf', 'fps=' + str(fps) + ',pad=ceil(iw/2)*2:ceil(ih/2)*2',  # Set fps and handle height not divisible by 2 error
+        '-pix_fmt', 'yuv420p',  # Pixel format, needed for certain players'
+        output_video_path  # Output file
+    ]
+
+    # Run the command
+    subprocess.run(command, check=True)
 
 # Argument parser
 parser = argparse.ArgumentParser(description='This script processes an input directory of images, converting each to a Spatial Video ( mv-hevc ).')
