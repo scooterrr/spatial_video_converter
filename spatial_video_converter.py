@@ -132,7 +132,7 @@ parser.add_argument('-o', '--output-directory', help='Path to the output directo
 args = parser.parse_args()
 
 # Get list of images in the input directory
-input_images = [img for img in os.listdir(args.input) if img.endswith(('.jpeg', '.png'))]
+input_images = [img for img in os.listdir(args.input) if img.endswith(('.jpeg', '.png', '.jpg'))]
 
 print(TerminalColors.WARNING + f"[Info]: Found {len(input_images)} images in {args.input}.")
 print(f"[Info]: Beginning conversion with separation value of {args.separation}..." + TerminalColors.ENDC)
@@ -178,6 +178,7 @@ for image in input_images:
 
     # Convert the video to a mv-hevc spatial video
     print("[Output]: Converting video to mv-hevc spatial video...")
+    print(f"[Output]: './spatial make -i {output_video_path} -f sbs -o {output_spatial_video_path} --cdist 60 --hfov 60 --hadjust 0.02 --projection rect --bitrate 60M --use-gpu'")
     os.system(f'./spatial make -i {output_video_path} -f sbs -o {output_spatial_video_path} --cdist 60 --hfov 60 --hadjust 0.02 --projection rect --bitrate 60M --use-gpu')
 
     print(TerminalColors.OKGREEN + "[Output]: Outputs complete." + TerminalColors.ENDC)
